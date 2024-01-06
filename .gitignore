@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 # Datbase
-.db
+*.db

@@ -1,3 +1,0 @@
-Tutorial to Download and Install SQLite
-https://www.sqlitetutorial.net/download-install-sqlite/
-
