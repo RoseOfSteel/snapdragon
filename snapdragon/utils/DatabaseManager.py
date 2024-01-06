@@ -46,8 +46,11 @@ class DatabaseManager:
   entry(list): Values for the new sensor.
   """
   def insert_entry_sensor_definition(self, entry):
-    self.cursor.execute('''INSERT INTO SENSOR_DEFINITIONS VALUES(?, ?, ?)''', entry) 
-    self.commit()
+    try:
+      self.cursor.execute('''INSERT INTO SENSOR_DEFINITIONS VALUES(?, ?, ?)''', entry) 
+      self.commit()
+    except sqlite3.IntegrityError:
+      print("This sensor already exists.")
 
   """
   Commit the changes to the datasbase.
