@@ -64,6 +64,7 @@ class DatabaseManager:
   def close(self):
     self.conn.close()
 
+"""
 # Test the database
 dm = DatabaseManager(db_path)
 dm.connect()
@@ -72,3 +73,4 @@ result = dm.query_all_sensor_definitions()
 dm.print_query_results(result)
 dm.close()
 print("Database test complete.")
+"""
