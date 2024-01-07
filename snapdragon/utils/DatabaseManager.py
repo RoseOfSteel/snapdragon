@@ -88,9 +88,6 @@ class DatabaseManager:
   return: List with the delivery instructions.
   """
   def query_delivery_instructions(self, name, software, hardware, documentation):
-    
-    # TODO: Is there a smarter way to do this query if some of the deliverable types are False or if they're all True?
-    # Is it better to do one search to see if the item is there and then do a second query if it is?
 
     # Keep track of the retrieved instructions
     instructions = []
