@@ -1,11 +1,10 @@
 import ifcfg
 import subprocess 
 import bluetooth
-import re
+
 from WifiDevice import WifiDevice
-from WifiNetwork import WifiNetwork
+from WifiNetworkListManager import WifiNetworkListManager
 from BluetoothDevice import BluetoothDevice
-from collections import OrderedDict
 
 """
 This class handles retrieving and managing network data.
@@ -77,70 +76,11 @@ class NetworkHandler():
     return: List of wifi networks
     """
     def get_wifi_networks(self):
-        devices = subprocess.check_output(['netsh','wlan','show','network']) 
+        discovered_devices = subprocess.check_output(['netsh','wlan','show','network'])
+        networks = WifiNetworkListManager(discovered_devices)
+        return networks.save_all_networks_from_raw_network_output()
 
-        """
-        The output looks like this but with multiple networks. Need to split it up
-        so we can store information for individual networks.
-
-        EX:
-        SSID 12 : NAME_OF_NETWORK
-        Network type            : Infrastructure
-        Authentication          : WPA3-Personal
-        Encryption              : CCMP
-        """
-
-        # Use "SSID" as the delimeter
-        device = re.split('(SSID)', str(devices))
-        fresh_list = []
-
-
-        first = True
-        for item in device:
-
-            """
-            Skip first iteration which will contain the header.
-
-            EX:
-            Interface name : Wi-Fi 
-            There are 1 networks currently visible.
-
-            """
-            if first:
-                first = False
-                continue
-            
-            # Remove the individual "SSID" entry from the array (result of split function)
-            # and then re-add "SSID" to the string
-            if item != "SSID":
-                fresh_list.append("SSID" + item)
-
-
-        # Clean the string of networks and store as individual devices
-        all_networks = []
-
-        for device in fresh_list:
-            # String processing to break out the individual config items
-            d = {}
-
-            # Strip white space and new lines
-            target = device.replace('\\r\\n', '')
-
-            # Pull the information from the string and store it
-            # Need a special regex for the last item since it searches for the end of the string
-            d['ssid'] = (re.findall(r"SSID\s+[0-9]+\s+:\s+(.+?)Network",target))[0].strip()
-            d['network type'] = (re.findall(r"Network type\s+:(.+?)Authentication",target))[0].strip()
-            d['authentication']= (re.findall(r"Authentication\s+:(.+?)Encryption",target))[0].strip()
-            d['encryption'] =(re.findall(r"Encryption\s+:\s+(.+?)\s+.*$",target))[0].strip()
         
-            # Create an internal network object
-            network = WifiNetwork(d)
-
-            # Store all networks
-            all_networks.append(network)
-
-        return all_networks
-
     """
     Print details for all identified wifi networks.
 
