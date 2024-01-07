@@ -52,6 +52,13 @@ class DatabaseManager:
     except sqlite3.IntegrityError:
       print("This sensor already exists.")
 
+
+  def query_identifier(self, classifier):
+    self.cursor.execute('''SELECT name,definition FROM identifier_definitions WHERE classifier = (?)''', [classifier])
+    result = self.cursor.fetchall()
+    self.commit()
+    return result
+
   """
   Commit the changes to the datasbase.
   """
