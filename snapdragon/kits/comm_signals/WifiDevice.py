@@ -4,7 +4,7 @@ Model for a WiFi device.
 
 class WifiDevice:
 
-    # Configuration names
+    # Device configuration names
     DEVICE = 'device'
     INET = 'inet'
     INET4 = 'inet4'
