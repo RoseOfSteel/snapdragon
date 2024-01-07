@@ -76,7 +76,6 @@ class DatabaseManager:
   def close(self):
     self.conn.close()
 
-
 # Test the database
 dm = DatabaseManager(db_path)
 dm.connect()
