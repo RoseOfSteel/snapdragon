@@ -65,6 +65,18 @@ class DatabaseManager:
     return result
 
   """
+  Find information on an object based on the haar cascade that was used to identify the image.
+
+  cascade(str): The cascade used to identify the image.
+  return: List with the object name and definition.
+  """
+  def query_sensor_data(self, name, sensor_type):
+    self.cursor.execute('''SELECT code FROM sensor_definitions WHERE name = (?) AND type = (?)''', [name, sensor_type])
+    result = self.cursor.fetchall()
+    self.commit()
+    return result
+
+  """
   Commit the changes to the datasbase.
   """
   def commit(self):
@@ -76,6 +88,25 @@ class DatabaseManager:
   def close(self):
     self.conn.close()
 
+  """
+  Clean the query result (remove from the nested tuple in a list and put in a straight list).
+  Ex: [('[(1,3,2,20)]',)] > [[(1,3,2,20)]]
+
+  result(list): List with a tuple that contains the query results.
+
+  return: A plain list with the query results.
+  """
+  def clean_query_result(self, result):
+    # Remove the original list
+    result = result[0]
+
+    # Iterate over the tuple and put the results in a fresh list
+    fresh_list = []
+    for item in result:
+      fresh_list.append(item)
+
+    return fresh_list
+    
 # Test the database
 dm = DatabaseManager(db_path)
 dm.connect()
