@@ -1,7 +1,9 @@
 from snapdragon.utils.DatabaseManager import DatabaseManager
 from root_path import db_path
 
-
+"""
+This class manages functions needed to manage sensor data.
+"""
 class SensorHandler:
     """
     Constructor.
