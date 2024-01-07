@@ -80,5 +80,3 @@ from_db = identifier.query_item_data(item)
 name = from_db[0][0]
 definition = from_db[0][1]
 print("You found a " + name + ". And here is some more information: " + definition)
-
-
