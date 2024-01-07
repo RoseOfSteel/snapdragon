@@ -53,8 +53,8 @@ class DatabaseManager:
       print("This sensor already exists.")
 
 
-  def query_identifier(self, classifier):
-    self.cursor.execute('''SELECT name,definition FROM identifier_definitions WHERE classifier = (?)''', [classifier])
+  def query_identifier(self, cascade):
+    self.cursor.execute('''SELECT name,definition FROM identifier_definitions WHERE cascade = (?)''', [cascade])
     result = self.cursor.fetchall()
     self.commit()
     return result
@@ -71,7 +71,6 @@ class DatabaseManager:
   def close(self):
     self.conn.close()
 
-"""
 # Test the database
 dm = DatabaseManager(db_path)
 dm.connect()
@@ -80,4 +79,5 @@ result = dm.query_all_sensor_definitions()
 dm.print_query_results(result)
 dm.close()
 print("Database test complete.")
-"""
+
+
