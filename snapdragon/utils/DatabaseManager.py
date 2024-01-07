@@ -53,6 +53,18 @@ class DatabaseManager:
       print("This sensor already exists.")
 
   """
+  Find information on an object based on the haar cascade that was used to identify the image.
+
+  cascade(str): The cascade used to identify the image.
+  return: List with the object name and definition.
+  """
+  def query_identifier(self, cascade):
+    self.cursor.execute('''SELECT name, definition FROM identifier_definitions WHERE cascade = (?)''', [cascade])
+    result = self.cursor.fetchall()
+    self.commit()
+    return result
+
+  """
   Commit the changes to the datasbase.
   """
   def commit(self):
