@@ -65,9 +65,10 @@ class DatabaseManager:
     return result
 
   """
-  Find information on an object based on the haar cascade that was used to identify the image.
+  Get the sensor commands to needed describe an object.
 
-  cascade(str): The cascade used to identify the image.
+  name(str): The object to search for.
+  sensor_type(str): The type of sensor action (e.g., smell or touch).
   return: List with the object name and definition.
   """
   def query_sensor_data(self, name, sensor_type):
@@ -75,6 +76,42 @@ class DatabaseManager:
     result = self.cursor.fetchall()
     self.commit()
     return result
+
+  """
+  Retrieve the instructions to deliver a particular product.
+
+  name(str): Name of the object you need instructions for.
+  software(bool): True if you want the software deliverable instructions. False if not.
+  hardware(bool): True if you want the hardware deliverable instructions. False if not.
+  documentation(bool): True if you want the documentation deliverable instructions. False if not.
+  
+  return: List with the delivery instructions.
+  """
+  def query_delivery_instructions(self, name, software, hardware, documentation):
+    
+    # TODO: Is there a smarter way to do this query if some of the deliverable types are False or if they're all True?
+    # Is it better to do one search to see if the item is there and then do a second query if it is?
+
+    # Keep track of the retrieved instructions
+    instructions = []
+
+    if software:
+      self.cursor.execute('''SELECT software FROM delivery_definitions WHERE name = (?)''', [name])
+      result = self.cursor.fetchall()
+      instructions.append(self.clean_query_result(result))
+
+    if hardware:
+      self.cursor.execute('''SELECT hardware FROM delivery_definitions WHERE name = (?)''', [name])
+      result = self.cursor.fetchall()
+      instructions.append(self.clean_query_result(result))
+
+    if documentation:
+      self.cursor.execute('''SELECT documentation FROM delivery_definitions WHERE name = (?)''', [name])
+      result = self.cursor.fetchall()
+      instructions.append(self.clean_query_result(result))
+      
+    self.commit()
+    return self.remove_nested_lists(instructions)
 
   """
   Commit the changes to the datasbase.
@@ -94,9 +131,14 @@ class DatabaseManager:
 
   result(list): List with a tuple that contains the query results.
 
-  return: A plain list with the query results.
+  return: List of query results. Returns the empty list if nothing is there.
   """
   def clean_query_result(self, result):
+
+    # Only clean up the result assuming there is something there
+    if len(result) == 0:
+      return result
+            
     # Remove the original list
     result = result[0]
 
@@ -106,7 +148,23 @@ class DatabaseManager:
       fresh_list.append(item)
 
     return fresh_list
-    
+
+  """
+  Remove nested lists and put them into one list.
+
+  result: List of lists that needs to be cleaned.
+  
+  return: List of query results. Returns the empty list if nothing is there.
+  """
+  def remove_nested_lists(self, result):
+    fresh_list = []
+
+    for item in result:
+      if len(item) > 0:
+        fresh_list.append(item[0])
+      
+    return fresh_list
+   
 # Test the database
 dm = DatabaseManager(db_path)
 dm.connect()
@@ -115,3 +173,4 @@ result = dm.query_all_sensor_definitions()
 dm.print_query_results(result)
 dm.close()
 print("Database test complete.")
+
