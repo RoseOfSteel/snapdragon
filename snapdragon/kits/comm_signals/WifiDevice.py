@@ -98,7 +98,7 @@ class WifiDevice:
     """
     Prints all configurations for this Wifi device.
     """
-    def print_interface(self):
+    def print_full(self):
         self.print_config(self.DEVICE, self.get_name())
         print("*******************************")
         self.print_config(self.INET, self.get_inet())
