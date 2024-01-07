@@ -93,7 +93,6 @@ class NetworkHandler():
 # Test the Network Handler
 nd = NetworkHandler()
 
-"""
 # Test Wifi Devices
 wifi_devices = nd.get_wifi_device_details()
 nd.print_wifi_devices(wifi_devices)
@@ -101,7 +100,6 @@ nd.print_wifi_devices(wifi_devices)
 # Test Bluetooth Signals
 bluetooth_devices = nd.get_bluetooth_device_details()
 nd.print_bluetooth_devices(bluetooth_devices)
-"""
 
 # Test Retrieving Wifi Networks
 networks = nd.get_wifi_networks()
