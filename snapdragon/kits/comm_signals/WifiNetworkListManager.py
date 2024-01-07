@@ -34,10 +34,10 @@ class WifiNetworkListManager:
     for each network into its own list index.
 
     EX:
-    SSID 12 : NAME_OF_NETWORK
-    Network type            : Infrastructure
-    Authentication          : WPA3-Personal
-    Encryption              : CCMP
+    SSID <#> : <Name of Network>
+    Network type            : <Infrustructure Type>
+    Authentication          : <Authentication Type>
+    Encryption              : <Encryption Type>
 
     Final result is the list with all network information put into their own indices. 
     """

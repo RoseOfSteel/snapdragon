@@ -10,6 +10,8 @@ class BluetoothDevice:
     
     """
     Constructor.
+
+    device(tuple): Tuple with Bluetooth device information.
     """
     def __init__(self, device):
         self.device = device
