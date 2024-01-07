@@ -37,5 +37,3 @@ print(result)
 # Test for a missing description
 result = sensor_handler.retrieve_code("fruit", "touch")
 print(result)
-
-

@@ -107,7 +107,6 @@ class DatabaseManager:
 
     return fresh_list
     
-
 # Test the database
 dm = DatabaseManager(db_path)
 dm.connect()
