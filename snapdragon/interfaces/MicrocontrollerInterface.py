@@ -74,7 +74,7 @@ class MicrocontrollerInterface:
     return: The output from the microcontroller
     """
     def receive_output_only(self):
-        print("Scan tag now...")
+        print("Receiving input now...")
         while True:
 
             # Receive the input
