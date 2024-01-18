@@ -10,7 +10,7 @@ a usable object. This is neeed because the subprocess output used to retrieve th
 information returns a string (rather than a list of network items with details on their
 configurations).
 """
-class WifiNetworkListManager:
+class WifiNetworkList:
     
     # Network configuration names
     SSID = 'ssid'

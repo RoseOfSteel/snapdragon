@@ -4,7 +4,7 @@ from root_path import db_path
 """
 This class manages functions needed to manage sensor data.
 """
-class SensorHandler:
+class SensorManager:
     """
     Constructor.
     """
@@ -32,7 +32,7 @@ class SensorHandler:
 
 # Test the Sensor Handler
 # Test for a good description
-sensor_handler = SensorHandler()
+sensor_handler = SensorManager()
 result = sensor_handler.retrieve_code("fruit", "smell")
 print(result)
 

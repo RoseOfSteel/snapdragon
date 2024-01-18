@@ -4,7 +4,7 @@ from root_path import db_path
 """
 This class manages functions needed to manage product delivery instructions.
 """
-class DeliveryHandler:
+class DeliveryManager:
     """
     Constructor.
     """
@@ -29,11 +29,11 @@ class DeliveryHandler:
         return result
 
 # Test the Delivery Handler
-delivery_handler = DeliveryHandler()
-result = delivery_handler.retrieve_delivery_instructions("cubesat", True, True, False)
+delivery_manager = DeliveryManager()
+result = delivery_manager.retrieve_delivery_instructions("cubesat", True, True, False)
 print(result)
 
-delivery_handler = DeliveryHandler()
-result = delivery_handler.retrieve_delivery_instructions("AI Software", True, True, True)
+delivery_manager = DeliveryManager()
+result = delivery_manager.retrieve_delivery_instructions("AI Software", True, True, True)
 print(result)
     

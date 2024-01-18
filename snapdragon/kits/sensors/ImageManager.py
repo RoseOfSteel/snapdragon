@@ -2,7 +2,7 @@ from snapdragon.utils.DatabaseManager import DatabaseManager
 from root_path import db_path
 import cv2 
 
-class Identifier:
+class ImageManager:
     """
     Constructor.
     """
@@ -74,7 +74,7 @@ class Identifier:
         return result
 
 # Test the Identifier 
-identifier = Identifier()
+identifier = ImageManager()
 item = identifier.identify_img("test_img.png")
 from_db = identifier.query_item_data(item)
 name = from_db[0][0]

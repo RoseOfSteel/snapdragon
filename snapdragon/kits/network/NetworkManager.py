@@ -3,13 +3,15 @@ import subprocess
 import bluetooth
 
 from WifiDevice import WifiDevice
-from WifiNetworkListManager import WifiNetworkListManager
+from WifiNetworkList import WifiNetworkList
 from BluetoothDevice import BluetoothDevice
+
+from snapdragon.interfaces.MicrocontrollerInterface import MicrocontrollerInterface
 
 """
 This class handles retrieving and managing network data.
 """
-class NetworkHandler():
+class NetworkManager():
 
     """
     Constructor.
@@ -77,7 +79,7 @@ class NetworkHandler():
     """
     def get_wifi_networks(self):
         discovered_devices = subprocess.check_output(['netsh','wlan','show','network'])
-        networks = WifiNetworkListManager(discovered_devices)
+        networks = WifiNetworkList(discovered_devices)
         return networks.save_all_networks_from_raw_network_output()
 
         
@@ -90,17 +92,40 @@ class NetworkHandler():
         for network in networks:
             network.print_full()
 
-# Test the Network Handler
-nd = NetworkHandler()
+    """
+    Read the data from the RFID tag.
+
+    return: Data from the RFID tag
+    """
+    def read_rfid_tag(self):
+        mci = MicrocontrollerInterface()
+        controller_output = mci.receive_output_only()
+        return controller_output
+
+    """
+    Print output from an RFID tag.
+
+    rfid_output(str): Content read from an RFID tag
+    """
+    def print_rfid_tag(self, rfid_output):
+        print(rfid_output)
+
+
+# Test the Network Manager
+nm = NetworkManager()
 
 # Test Wifi Devices
-wifi_devices = nd.get_wifi_device_details()
-nd.print_wifi_devices(wifi_devices)
+wifi_devices = nm.get_wifi_device_details()
+nm.print_wifi_devices(wifi_devices)
 
 # Test Bluetooth Signals
-bluetooth_devices = nd.get_bluetooth_device_details()
-nd.print_bluetooth_devices(bluetooth_devices)
+bluetooth_devices = nm.get_bluetooth_device_details()
+nm.print_bluetooth_devices(bluetooth_devices)
 
 # Test Retrieving Wifi Networks
-networks = nd.get_wifi_networks()
-nd.print_wifi_networks(networks)
+networks = nm.get_wifi_networks()
+nm.print_wifi_networks(networks)
+
+# Test reading the RFID tag
+rfid_output = nm.read_tag()
+nm.print_rfid_tag(rfid_output)
